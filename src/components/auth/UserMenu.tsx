@@ -1,7 +1,7 @@
 "use client";
 
-import { useAuth } from "@/lib/auth/auth-context";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useSession, signOut } from "next-auth/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -10,11 +10,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function UserMenu() {
-  const { user, logout } = useAuth();
+  const { data: session } = useSession();
 
-  if (!user) return null;
+  if (!session?.user) return null;
 
-  const initials = user.username
+  const name = session.user.name ?? "User";
+  const email = session.user.email ?? "";
+  const image = session.user.image;
+
+  const initials = name
     .split(" ")
     .map((n) => n[0])
     .join("")
@@ -25,14 +29,15 @@ export function UserMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar className="size-8">
+          {image && <AvatarImage src={image} alt={name} />}
           <AvatarFallback>{initials}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <div className="px-2 py-1.5 text-xs text-muted-foreground">
-          {user.email}
+          {email}
         </div>
-        <DropdownMenuItem onClick={logout}>
+        <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>

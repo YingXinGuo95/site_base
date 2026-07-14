@@ -49,3 +49,6 @@ pnpm-debug.log*
 .claude/
 .agents/
 doc/
+
+# drizzle
+drizzle/

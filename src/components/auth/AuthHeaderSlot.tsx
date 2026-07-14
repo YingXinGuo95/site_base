@@ -1,19 +1,19 @@
 "use client";
 
-import { useAuth } from "@/lib/auth/auth-context";
-import { AuthButtons } from "./AuthButtons";
+import { useSession } from "next-auth/react";
+import { GoogleSignInButton } from "./GoogleSignInButton";
 import { UserMenu } from "./UserMenu";
 
 export function AuthHeaderSlot() {
-  const { user, isLoading } = useAuth();
+  const { data: session, status } = useSession();
 
-  if (isLoading) {
-    return <div className="size-8" />;
+  if (status === "loading") {
+    return <div className="size-8 animate-pulse rounded-full bg-muted" />;
   }
 
-  if (user) {
+  if (session?.user) {
     return <UserMenu />;
   }
 
-  return <AuthButtons />;
+  return <GoogleSignInButton variant="ghost" size="sm" />;
 }

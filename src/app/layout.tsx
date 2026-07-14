@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { AuthProvider } from "@/lib/auth/auth-context";
+import { SessionProviderWrapper } from "@/components/auth/SessionProviderWrapper";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -32,13 +32,13 @@ export default function RootLayout({
   return (
     <html className={cn("font-sans", inter.variable)} lang="en">
       <body className="min-h-screen bg-background antialiased">
-        <AuthProvider>
+        <SessionProviderWrapper>
           <div className="flex min-h-screen flex-col">
             <Header />
             <main className="flex-1">{children}</main>
             <Footer />
           </div>
-        </AuthProvider>
+        </SessionProviderWrapper>
       </body>
     </html>
   );
