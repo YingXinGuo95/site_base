@@ -39,7 +39,7 @@ export function ToolCard({ tool }: ToolCardProps) {
   const { title, description, category } = content;
 
   return (
-    <Link href={`/tools/${tool.slug}`}>
+    <Link href={`/tools?tool=${tool.slug}`}>
       <Card className="group h-full overflow-hidden transition-all duration-200 hover:shadow-lg hover:-translate-y-1 cursor-pointer">
         <div
           className="aspect-video w-full bg-muted"

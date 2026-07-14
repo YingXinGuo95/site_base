@@ -21,13 +21,17 @@ function escapeXml(str: string): string {
 }
 
 /**
- * Catalog of tools shown on the homepage.
+ * Catalog of tools shown on the homepage and tools page.
  *
  * To add a new tool:
  *   1. Add an entry to `tools` with a unique `slug`.
- *   2. Add matching content in `app/tools/[slug]/page.tsx` (toolContent).
- *   3. Add matching content in `components/layout/ToolCard.tsx` (cardContent).
+ *   2. Add matching content in `components/layout/ToolCard.tsx` (cardContent).
  */
+
+export function getToolBySlug(slug: string): Tool | undefined {
+  return tools.find((tool) => tool.slug === slug);
+}
+
 export const tools: Tool[] = [
   {
     slug: "text-counter",
@@ -38,7 +42,3 @@ export const tools: Tool[] = [
     thumbnailSvg: (label: string) => placeholderThumbnail(label, "#059669"),
   },
 ];
-
-export function getToolBySlug(slug: string): Tool | undefined {
-  return tools.find((tool) => tool.slug === slug);
-}
