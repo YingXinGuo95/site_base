@@ -6,7 +6,7 @@ export function Footer() {
       <div className="container mx-auto px-4 py-8">
         <div className="grid gap-8 sm:grid-cols-3">
           <div>
-            <h3 className="mb-2 text-sm font-semibold">ToolShelf</h3>
+            <h3 className="mb-2 text-sm font-semibold">Template</h3>
             <p className="text-xs text-muted-foreground">
               A starter template for shipping small, self-contained browser
               tools.
@@ -18,11 +18,6 @@ export function Footer() {
               <li>
                 <Link href="/" className="hover:text-foreground transition-colors">
                   Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/#tools" className="hover:text-foreground transition-colors">
-                  Tools
                 </Link>
               </li>
             </ul>
@@ -41,7 +36,7 @@ export function Footer() {
             placeholders — replace them with your own implementations.
           </p>
           <p className="mt-1">
-            © {new Date().getFullYear()} ToolShelf. All rights reserved.
+            © {new Date().getFullYear()} Template. All rights reserved.
           </p>
         </div>
       </div>

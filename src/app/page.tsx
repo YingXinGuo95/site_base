@@ -7,7 +7,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="mb-12 text-center">
         <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          ToolShelf
+          Template
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
           A small collection of lightweight, self-contained browser tools.

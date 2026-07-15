@@ -17,7 +17,7 @@ export function LoginForm() {
         <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-2xl bg-primary shadow-sm">
           <LogIn className="size-5 text-primary-foreground" />
         </div>
-        <CardTitle className="text-xl font-semibold">Welcome to ToolShelf</CardTitle>
+        <CardTitle className="text-xl font-semibold">Welcome to Template</CardTitle>
         <CardDescription className="text-sm">
           Sign in to access your account
         </CardDescription>

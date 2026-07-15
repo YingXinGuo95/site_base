@@ -11,17 +11,11 @@ export function Header() {
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">
             T
           </div>
-          <span className="text-lg font-bold tracking-tight">ToolShelf</span>
+          <span className="text-lg font-bold tracking-tight">Template</span>
         </Link>
         <nav className="flex items-center gap-4 text-sm text-muted-foreground">
           <Link href="/" className="hover:text-foreground transition-colors">
             Home
-          </Link>
-          <Link
-            href="/#tools"
-            className="hover:text-foreground transition-colors"
-          >
-            Tools
           </Link>
           <AuthHeaderSlot />
         </nav>
