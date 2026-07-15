@@ -11,5 +11,13 @@ export function SessionProviderWrapper({
   children: ReactNode;
   session: Session | null;
 }) {
-  return <SessionProvider session={session}>{children}</SessionProvider>;
+  return (
+    <SessionProvider
+      session={session}
+      refetchOnWindowFocus={false}
+      refetchInterval={10 * 60} // 每 10 分钟轮询一次，避免频繁请求
+    >
+      {children}
+    </SessionProvider>
+  );
 }
