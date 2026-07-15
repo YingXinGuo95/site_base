@@ -1,6 +1,7 @@
 "use client";
 
-import { useSession, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
+import { useAppSession } from "./SessionProviderWrapper";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -10,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function UserMenu() {
-  const { data: session } = useSession();
+  const { data: session } = useAppSession();
 
   if (!session?.user) return null;
 
@@ -37,7 +38,14 @@ export function UserMenu() {
         <div className="px-2 py-1.5 text-xs text-muted-foreground">
           {email}
         </div>
-        <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/" })}>
+        <DropdownMenuItem
+          onClick={() => {
+            // Clear leftover CSRF token cookie that next-auth doesn't clean
+            document.cookie =
+              "authjs.csrf-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            signOut({ callbackUrl: "/" });
+          }}
+        >
           Sign out
         </DropdownMenuItem>
       </DropdownMenuContent>
