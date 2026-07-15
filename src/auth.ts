@@ -2,13 +2,20 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { SupabaseAdapter } from "@/lib/auth/supabase-adapter";
 
-// ── Diagnostic: log env var presence (never log values) ──────────────
-console.log("[auth] AUTH_GOOGLE_ID present:", !!process.env.AUTH_GOOGLE_ID);
-console.log("[auth] AUTH_GOOGLE_SECRET present:", !!process.env.AUTH_GOOGLE_SECRET);
-console.log("[auth] AUTH_SECRET present:", !!process.env.AUTH_SECRET);
-console.log("[auth] AUTH_URL:", process.env.AUTH_URL);
-console.log("[auth] NEXT_PUBLIC_SUPABASE_URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
-console.log("[auth] SUPABASE_SERVICE_ROLE_KEY present:", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
+// ── Diagnostic: one-line env-var presence summary (never log values) ──
+if (process.env.NODE_ENV === "development") {
+  console.log(
+    "[auth] env:",
+    {
+      AUTH_GOOGLE_ID: !!process.env.AUTH_GOOGLE_ID,
+      AUTH_GOOGLE_SECRET: !!process.env.AUTH_GOOGLE_SECRET,
+      AUTH_SECRET: !!process.env.AUTH_SECRET,
+      AUTH_URL: process.env.AUTH_URL,
+      NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+      SUPABASE_SERVICE_ROLE_KEY: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
+    },
+  );
+}
 
 export const { auth, signIn, signOut, handlers } = NextAuth({
   adapter: SupabaseAdapter(),
@@ -24,8 +31,7 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   session: {
     strategy: "database",
   },
-  // Enable verbose debug logging for the OAuth flow
-  debug: true,
+  debug: process.env.NODE_ENV === "development",
   logger: {
     error(code, ...message) {
       console.error("[auth][error]", code, ...message);
@@ -39,7 +45,9 @@ export const { auth, signIn, signOut, handlers } = NextAuth({
   },
   callbacks: {
     signIn({ user, account, profile: _profile }) {
-      console.log("[auth] signIn callback — user:", user?.email, "provider:", account?.provider);
+      if (process.env.NODE_ENV === "development") {
+        console.log("[auth] signIn —", user?.email, "|", account?.provider);
+      }
       return true;
     },
     session({ session, user }) {
