@@ -1,5 +1,15 @@
+import type { Metadata } from "next";
+import { siteConfig } from "@/lib/site";
 import { ToolCard } from "@/components/layout/ToolCard";
 import { tools } from "@/data/tools";
+
+export const metadata: Metadata = {
+  title: siteConfig.title.default,
+  description: siteConfig.description,
+  alternates: {
+    canonical: siteConfig.url,
+  },
+};
 
 export default function HomePage() {
   return (
