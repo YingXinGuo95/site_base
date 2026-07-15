@@ -8,6 +8,22 @@ function supabaseAdmin() {
   );
 }
 
+// ── Best-effort expired-session cleanup ──────────────────────────────
+// Runs inline on sign-in / sign-out.  Limit 10 per call — replace with a
+// proper cron job later.
+
+function cleanupExpiredSessions() {
+  supabaseAdmin()
+    .from("session")
+    .delete()
+    .lt("expires", new Date().toISOString())
+    .limit(10)
+    .then(
+      () => {},
+      () => {},
+    );
+}
+
 /** Supabase returns timestamps as ISO strings; Auth.js needs Date objects. */
 function normalizeDates<T>(record: T): T {
   if (record && typeof record === "object" && "expires" in record) {
@@ -118,6 +134,7 @@ export function SupabaseAdapter(): Adapter {
         .select()
         .single();
       if (error) throw error;
+      cleanupExpiredSessions(); // fire-and-forget expired cleanup
       return normalizeDates(data) as AdapterSession;
     },
 
@@ -164,6 +181,7 @@ export function SupabaseAdapter(): Adapter {
         .delete()
         .eq("sessionToken", sessionToken)
         .eq("tenant_id", tenantId);
+      cleanupExpiredSessions(); // fire-and-forget expired cleanup
     },
 
     async createVerificationToken(token) {
